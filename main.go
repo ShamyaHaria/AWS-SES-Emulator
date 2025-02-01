@@ -8,7 +8,8 @@ import(
 
 var emailCount=0
 var emailLimit=5
-var firstEmailTime time.Time
+var totalEmailCount=0
+var lastResetTime = time.Now()
 
 func main(){
 	r:=gin.Default()
@@ -24,6 +25,7 @@ func main(){
 		return
 		}
 		emailCount++
+		totalEmailCount++
 		c.JSON(http.StatusOK,gin.H{"message":"mock-message-id-123",
 		})
 	})
@@ -36,6 +38,7 @@ func main(){
 		return
 		}
 		emailCount++
+		totalEmailCount++
 		c.JSON(http.StatusOK,gin.H{"message":"mock-raw-message-id-456",
 		})
 	})
@@ -43,8 +46,9 @@ func main(){
 	r.GET("/get-send-quota",func(c*gin.Context){
 		resetLimitIfNeeded()
 		c.JSON(http.StatusOK,gin.H{
-			"max24HourSend":200,
+			"max24HourSend":emailLimit,
 			"sentLast24Hours":emailCount,
+			"TotalEmailCount":totalEmailCount,
 			"MaxSendRate":1.0,
 		})
 	})
@@ -53,6 +57,7 @@ func main(){
 		resetLimitIfNeeded()
 		c.JSON(http.StatusOK,gin.H{
 			"DeliveryAttempts":emailCount,
+			"TotalEmailsSent":totalEmailCount,
 			"Bounces":0,
 			"Complaints":0,
 			"Rejects":0,
@@ -63,20 +68,16 @@ func main(){
 }
 
 func resetLimitIfNeeded() {
-	if firstEmailTime.IsZero(){
-		return
-	}
-	if time.Since(firstEmailTime)>24*time.Hour{
+	now := time.Now()
+	if now.Day() != lastResetTime.Day() {
 		emailCount=0
-		if emailLimit == 5{
-			emailLimit=10
+		lastResetTime=now
+		if totalEmailCount >= 25 && emailLimit == 5{
+			emailLimit = 10
+		} else if totalEmailCount >= 100 && emailLimit == 10{
+			emailLimit = 25
+		}else if totalEmailCount >= 250 && emailLimit == 25{
+			emailLimit = 50
 		}
-		else if emailLimit == 10{
-			emailLimit=20
-		}
-		else if emailLimit == 20{
-			emailLimit=50
-		}
-		firstEmailTime=time.Now()
 	}
 }
