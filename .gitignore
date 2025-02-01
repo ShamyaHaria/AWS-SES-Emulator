@@ -1,0 +1,25 @@
+# Binaries
+/bin/
+/obj/
+
+# Go workspace
+/vendor/
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go specific
+*.test
+*.out
+*.log
+
+# IDE files (optional, based on your editor)
+.idea/
+.vscode/
+*.swp
+
+.DS_Store
