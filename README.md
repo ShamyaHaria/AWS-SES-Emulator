@@ -1,2 +1,2 @@
 # AWS-SES-Emulator
-A Go-based email processing API , built with Gin, featuring request handling, email statistics tracking, and usage analysis.
+A fast email processing API — for seamless request handling, deep email analytics, and real-time usage insights
