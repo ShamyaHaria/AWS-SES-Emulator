@@ -96,7 +96,8 @@ By default, the API runs on http://localhost:8080.
 
 - Response:
 
-```{
+```
+{
   "Max24HourSend": 5,
   "SentLast24Hours": 3,
   "TotalEmailCount": 8,
@@ -110,7 +111,8 @@ By default, the API runs on http://localhost:8080.
 
 - Response:
 
-```{
+```
+{
   "DeliveryAttempts": 3,
   "TotalEmailsSent": 8,
   "Bounces": 0,
