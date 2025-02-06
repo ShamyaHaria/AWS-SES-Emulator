@@ -48,8 +48,8 @@ winget install GoLang.Go
 #### Clone the Repository
 
 ```bash
-git clone https://github.com/your-repo/mock-aws-ses-api.git
-cd mock-aws-ses-api
+git clone https://github.com/your-repo/aws-ses-emulator.git
+cd aws-ses-emulator
 ```
 
 #### Run the API
